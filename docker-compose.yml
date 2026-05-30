@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  banco_de_dados_luahn:
+    image: influxdb:1.8
+    container_name: banco_de_dados_luahn
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=jmeter
+    volumes:
+      - dados_influxdb_luahn:/var/lib/influxdb
+
+  painel_grafana_luahn:
+    image: grafana/grafana:latest
+    container_name: painel_grafana_luahn
+    ports:
+      - "3000:3000"
+    depends_on:
+      - banco_de_dados_luahn
+    volumes:
+      - dados_grafana_luahn:/var/lib/grafana
+
+volumes:
+  dados_influxdb_luahn:
+  dados_grafana_luahn:
